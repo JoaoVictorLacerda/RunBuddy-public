@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb-data/mongo-volume:/data/db
+    networks:
+      - mongo-compose-network
+
+  redis:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --requirepass 123456
+    volumes:
+      - ./redis-data/redis-volume:/data/db
+
+networks:
+  mongo-compose-network:
+    driver: bridge
